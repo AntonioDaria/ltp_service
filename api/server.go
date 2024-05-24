@@ -36,6 +36,11 @@ func (s *Server) StartAndListen(ctx context.Context) {
 	))
 	app.Use(cors.New())
 
+	// Add health check endpoint
+	app.Get("/health", func(c *fiber.Ctx) error {
+		return c.SendString("OK")
+	})
+
 	err := app.Listen(fmt.Sprintf("0.0.0.0:%d", 8000)) // TODO: add port to config s.Config.APIPort
 	if err != nil {
 		fmt.Printf("Failed to start/stop API: %v", err)
