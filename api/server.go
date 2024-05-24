@@ -18,9 +18,9 @@ func NewServer() *Server {
 }
 
 // StartAndListen
-// @title Ascent API
+// @title Last Traded Price API
 // @version 1.0
-// @description GITHub User Fav Language API
+// @description API for retrieval of the Last Traded Price of Bitcoin
 // @host localhost:8000
 // @BasePath /
 func (s *Server) StartAndListen(ctx context.Context) {
