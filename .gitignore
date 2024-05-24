@@ -1,0 +1,19 @@
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Output files
+*.out
+
+# Vendor directory (comment the next line if you are using Go modules)
+/vendor/
+
+# Go modules
+/go.sum
+
+# Go test binary, build artifacts
+*.test
+*.exe
