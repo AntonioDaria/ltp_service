@@ -4,17 +4,21 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/antoniodaria/ltp_service/api/clients/kraken"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 )
 
 type Server struct {
-	app *fiber.App
+	app          *fiber.App
+	krakenClient kraken.Client
 }
 
-func NewServer() *Server {
-	return &Server{}
+func NewServer(krakenClient kraken.Client) *Server {
+	return &Server{
+		krakenClient: krakenClient,
+	}
 }
 
 // StartAndListen
