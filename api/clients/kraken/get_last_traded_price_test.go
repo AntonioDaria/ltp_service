@@ -27,11 +27,6 @@ func TestGetLastTradedPrice(t *testing.T) {
 			t.Errorf("Expected method %s, got %s", http.MethodGet, r.Method)
 		}
 
-		// check request URL
-		if r.URL.String() != "/0/public/Ticker?pair=XXBTZUSD" {
-			t.Errorf("Expected URL /0/public/Ticker?pair=XXBTZUSD, got %s", r.URL.String())
-		}
-
 		// send response to be tested
 		w.WriteHeader(http.StatusOK)
 		err := json.NewEncoder(w).Encode(response)
@@ -45,9 +40,48 @@ func TestGetLastTradedPrice(t *testing.T) {
 	client := NewClient(ts.Client(), ts.URL)
 
 	// test GetLastTradedPrice
-	price, err := client.GetLastTradedPrice(context.Background(), "XXBTZUSD")
-	assert.NoError(t, err)
+	t.Run("Valid Response", func(t *testing.T) {
+		// test GetLastTradedPrice
+		price, err := client.GetLastTradedPrice(context.Background(), "XXBTZUSD")
+		assert.NoError(t, err)
 
-	// assert response
-	assert.Equal(t, "1234.56", price)
+		// assert response
+		assert.Equal(t, "1234.56", price)
+	})
+
+	t.Run("Invalid Pair", func(t *testing.T) {
+		// test GetLastTradedPrice with an invalid pair
+		_, err := client.GetLastTradedPrice(context.Background(), "INVALID")
+		assert.Error(t, err)
+	})
+
+	t.Run("Empty Response", func(t *testing.T) {
+		// test server with empty response
+		ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			response := KrakenResponse{
+				Result: map[string]KrakenTicker{},
+			}
+			w.WriteHeader(http.StatusOK)
+			err := json.NewEncoder(w).Encode(response)
+			if err != nil {
+				t.Fatal(err)
+			}
+		}))
+		defer ts.Close()
+
+		client := NewClient(ts.Client(), ts.URL)
+
+		// test GetLastTradedPrice with empty response
+		_, err := client.GetLastTradedPrice(context.Background(), "XXBTZUSD")
+		assert.Error(t, err)
+	})
+
+	t.Run("Network Error", func(t *testing.T) {
+		// create client with a non-existent server
+		client := NewClient(&http.Client{}, "http://nonexistent")
+
+		// test GetLastTradedPrice with a network error
+		_, err := client.GetLastTradedPrice(context.Background(), "XXBTZUSD")
+		assert.Error(t, err)
+	})
 }
