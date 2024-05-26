@@ -79,7 +79,7 @@ This will run all the tests in the project.
 
 3. **To Run the tests:**
 ```sh
-go test ./...
+make test
 ```
 
 4. **Stop the application:**

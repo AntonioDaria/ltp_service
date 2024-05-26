@@ -23,6 +23,7 @@ type PairLTP struct {
 // @Produce json
 // @Success 200 {object} LastTradedPriceResponse
 // @Failure 500 {object} api.JSONError
+// @Failure 405 {object} api.JSONError
 // @Router /api/v1/ltp [get]
 func (h *Handler) GetLTP(c *fiber.Ctx) error {
 	pairs := map[string]string{

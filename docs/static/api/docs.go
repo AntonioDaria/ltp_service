@@ -35,6 +35,12 @@ const docTemplate = `{
                             "$ref": "#/definitions/handler.LastTradedPriceResponse"
                         }
                     },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "schema": {
+                            "$ref": "#/definitions/api.JSONError"
+                        }
+                    },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
