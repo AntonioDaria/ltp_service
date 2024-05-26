@@ -27,6 +27,11 @@ func TestGetLastTradedPrice(t *testing.T) {
 			t.Errorf("Expected method %s, got %s", http.MethodGet, r.Method)
 		}
 
+		// check request URL
+		if r.URL.Path != "/0/public/Ticker" {
+			t.Errorf("Expected URL %s, got %s", "/0/public/Ticker", r.URL.Path)
+		}
+
 		// send response to be tested
 		w.WriteHeader(http.StatusOK)
 		err := json.NewEncoder(w).Encode(response)
