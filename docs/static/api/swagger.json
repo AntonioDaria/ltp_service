@@ -1,0 +1,74 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "API for retrieval of the Last Traded Price of Bitcoin",
+        "title": "Last Traded Price API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:8000",
+    "basePath": "/",
+    "paths": {
+        "/api/v1/ltp": {
+            "get": {
+                "description": "Get the last traded price of a pair from Kraken api",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Kraken"
+                ],
+                "summary": "Get Last Traded Price",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handler.LastTradedPriceResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/api.JSONError"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "api.JSONError": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string"
+                }
+            }
+        },
+        "handler.LastTradedPriceResponse": {
+            "type": "object",
+            "properties": {
+                "ltp": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/handler.PairLTP"
+                    }
+                }
+            }
+        },
+        "handler.PairLTP": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "string"
+                },
+                "pair": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
