@@ -9,7 +9,7 @@ COPY . .
 # Use the build argument GOARCH to build for the specified architecture
 RUN --mount=type=cache,target=/root/.cache/go-build CGO_ENABLED=0 GOOS=linux GOARCH=${GOARCH} go build -o app main.go
 
-# Stage 2: Create the final minimal Docker image
+# Stage 2: Create a minimal image to run the application
 FROM alpine:3.19
 
 # Install necessary packages for healthcheck and certificates
@@ -26,6 +26,8 @@ RUN chmod +x /ltp_service.service
 # Create a user and group 'app'
 RUN addgroup -S app && adduser -S app -G app
 
-# Temporarily comment out the USER directive for debugging
+# Run the application as the app user
 USER app
+
+# Sets the entrypoint to the application
 ENTRYPOINT ["/ltp_service.service"]
