@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/antoniodaria/ltp_service/api/clients/kraken"
+	"github.com/antoniodaria/ltp_service/clients/kraken"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/recover"

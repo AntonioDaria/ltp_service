@@ -9,7 +9,7 @@ import (
 	"syscall"
 
 	"github.com/antoniodaria/ltp_service/api"
-	"github.com/antoniodaria/ltp_service/api/clients/kraken"
+	"github.com/antoniodaria/ltp_service/clients/kraken"
 )
 
 func main() {
